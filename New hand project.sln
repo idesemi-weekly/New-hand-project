@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.InteractionEngine", "Ultraleap.Tracking.InteractionEngine.csproj", "{a7b77ca2-c2da-bdee-84b3-70503e419f62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{37603ab2-6e81-25da-4702-3d1a38b7f0c0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.Core", "Ultraleap.Tracking.Core.csproj", "{b9090c1b-a46e-3b96-ac1c-dd3a47a1780e}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeapMotion.LeapCSharp", "LeapMotion.LeapCSharp.csproj", "{d3647931-9d22-61f5-d41c-bb25613fba3d}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.Hands", "Ultraleap.Tracking.Hands.csproj", "{76a68eaa-3883-748d-0482-36af26f920c1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.Core.Editor", "Ultraleap.Tracking.Core.Editor.csproj", "{72f97b6e-22c2-d51d-70f0-255baa0f868f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.Core.Editor.Tests", "Ultraleap.Tracking.Core.Editor.Tests.csproj", "{9975189f-979b-1b18-04d4-95efc10b4813}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.InteractionEngine.Editor", "Ultraleap.Tracking.InteractionEngine.Editor.csproj", "{faa72721-457d-b684-20a0-e27dfc47c93b}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{cbeaae89-aa6a-2cad-9dd4-93b7977f358c}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultraleap.Tracking.Hands.Editor", "Ultraleap.Tracking.Hands.Editor.csproj", "{d8046f6b-381a-692d-6606-c1be815a3687}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{a7b77ca2-c2da-bdee-84b3-70503e419f62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{a7b77ca2-c2da-bdee-84b3-70503e419f62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37603ab2-6e81-25da-4702-3d1a38b7f0c0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37603ab2-6e81-25da-4702-3d1a38b7f0c0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b9090c1b-a46e-3b96-ac1c-dd3a47a1780e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b9090c1b-a46e-3b96-ac1c-dd3a47a1780e}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{d3647931-9d22-61f5-d41c-bb25613fba3d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{d3647931-9d22-61f5-d41c-bb25613fba3d}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76a68eaa-3883-748d-0482-36af26f920c1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76a68eaa-3883-748d-0482-36af26f920c1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72f97b6e-22c2-d51d-70f0-255baa0f868f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72f97b6e-22c2-d51d-70f0-255baa0f868f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9975189f-979b-1b18-04d4-95efc10b4813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9975189f-979b-1b18-04d4-95efc10b4813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{faa72721-457d-b684-20a0-e27dfc47c93b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{faa72721-457d-b684-20a0-e27dfc47c93b}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{cbeaae89-aa6a-2cad-9dd4-93b7977f358c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{cbeaae89-aa6a-2cad-9dd4-93b7977f358c}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{d8046f6b-381a-692d-6606-c1be815a3687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{d8046f6b-381a-692d-6606-c1be815a3687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
