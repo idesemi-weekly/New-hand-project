@@ -34,47 +34,67 @@ Adeept.three_function("'servo_write'",4,t)
 num = 0
 
 while True:
-    if (q <= 180):
-        if keyboard.is_pressed("a"):
-            q = q + 0.25
+    if keyboard.is_pressed("a"):
+        q = q + 0.25
+        if (q <= 180):
             Adeept.three_function("'servo_write'",0,q)
-    if (w <= 180):
-        if keyboard.is_pressed("w"):
-            w = w + 0.25
+        else:
+            q = 180
+    if keyboard.is_pressed("w"):
+        w = w + 0.25
+        if (w <= 180):
             Adeept.three_function("'servo_write'",1,w)
-    if (e <= 180):
-        if keyboard.is_pressed("k"):
-            e = e + 0.25
+        else:
+            w = 180
+    if keyboard.is_pressed("k"):
+        e = e + 0.25
+        if (e <= 180):
             Adeept.three_function("'servo_write'",2,e)
-    if (r <= 180):
-        if keyboard.is_pressed("q"):
-            r = r + 0.25
+        else:
+            e = 180
+    if keyboard.is_pressed("q"):
+        r = r + 0.25
+        if (r <= 180):
             Adeept.three_function("'servo_write'",3,r)
-    if (t <= 135):
-        if keyboard.is_pressed("j"):
-            t = t + 0.25
+        else:
+            r = 180
+    if keyboard.is_pressed("j"):
+        t = t + 0.25
+        if (t <= 135):
             Adeept.three_function("'servo_write'",4,t)
+        else:
+            t = 135
     
-    if (q >= 0):
-        if keyboard.is_pressed("d"):
-            q = q - 0.25
+    if keyboard.is_pressed("d"):
+        q = q - 0.25
+        if (q >= 0):
             Adeept.three_function("'servo_write'",0,q)
-    if (w >= 0):
-        if keyboard.is_pressed("s"):
-            w = w - 0.25
+        else:
+            q = 0
+    if keyboard.is_pressed("s"):
+        w = w - 0.25
+        if (w >= 0):
             Adeept.three_function("'servo_write'",1,w)
-    if (e >= 0):
-        if keyboard.is_pressed("i"):
-            e = e - 0.25
+        else:
+            w = 0
+    if keyboard.is_pressed("i"):
+        e = e - 0.25
+        if (e >= 0):
             Adeept.three_function("'servo_write'",2,e)
-    if (r >= 0):
-        if keyboard.is_pressed("e"):
-            r = r - 0.25
+        else:
+            e = 0
+    if keyboard.is_pressed("e"):
+        r = r - 0.25
+        if (r >= 0):
             Adeept.three_function("'servo_write'",3,r)
-    if (t >= 45):
-        if keyboard.is_pressed("l"):
-            t = t - 0.25
+        else:
+            r = 0
+    if keyboard.is_pressed("l"):
+        t = t - 0.25
+        if (t >= 45):
             Adeept.three_function("'servo_write'",4,t)
+        else:
+            t = 45
 
     if keyboard.is_pressed("o"):
       break 
