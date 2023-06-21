@@ -8,11 +8,13 @@ public class NewBehaviourScript : MonoBehaviour
     //SerialHandler.cのクラス
     public SerialHandler serialHandler;
 
-    float q = 45;
-    float w = 93;
-    float e = 90;
-    float r = 90;
-    float t = 65;
+    int q = 45;
+    int w = 93;
+    int e = 90;
+    int r = 90;
+    int t = 65;
+
+    float m = 0;
 
 
     void three_function(string a,int b,int c)
@@ -48,12 +50,28 @@ public class NewBehaviourScript : MonoBehaviour
     void FixedUpdate() //ここは0.001秒ごとに実行される
     {
         if(Input.GetKey(KeyCode.W)){
-            w = w + 0.25;
-            if(w <= 180.0){
+            if(m >= 1){
+                w = w + 1;
+                if(w <= 180){
+                    three_function("'servo_write'",1,w);
+                }
+                else{
+                    w = 180;
+                }
+                m = 0;
+            }
+            else{
+                m = m + 0.25;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.S)){
+            w = w - 1;
+            if(w >= 0){
                 three_function("'servo_write'",1,w);
             }
             else{
-                w = 180.0;
+                w = 0;
             }
         }
     }
