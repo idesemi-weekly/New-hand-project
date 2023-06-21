@@ -50,18 +50,12 @@ public class NewBehaviourScript : MonoBehaviour
     void FixedUpdate() //ここは0.001秒ごとに実行される
     {
         if(Input.GetKey(KeyCode.W)){
-            if(m >= 1){
-                w = w + 1;
-                if(w <= 180){
-                    three_function("'servo_write'",1,w);
-                }
-                else{
-                    w = 180;
-                }
-                m = 0;
+            w = w + 1;
+            if(w <= 180){
+                three_function("'servo_write'",1,w);
             }
             else{
-                m = m + 0.25;
+                w = 180;
             }
         }
 
