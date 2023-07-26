@@ -57,7 +57,9 @@ public class NewBehaviourScript : MonoBehaviour
 
     void FixedUpdate() //ここは0.001秒ごとに実行される
     {
-        
+        Vector3 right_normal = handScript.rightHand.PalmNormal;
+        Vector3 right_direction = handScript.rightHand.Direction;
+        Vector3 right_position = handScript.rightHand.PalmPosition;
 
         if(Input.GetKey(KeyCode.W)){
             w = w + 1;
