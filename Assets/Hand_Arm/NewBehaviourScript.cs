@@ -17,13 +17,13 @@ public class NewBehaviourScript : MonoBehaviour
     int r = 90;
     int t = 65;
 
-    float m = 0;
+    public VisibleBallHand handScript;
 
-    public VisibleBallHand Handscript;
-    public void Hogehoge()
-    {
-        Debug.Log("Hogeoge");
-    }
+    /*Vector3 right_normal = handScript.rightHand.PalmNormal;
+    Vector3 right_direction = handScript.rightHand.Direction;
+    Vector3 right_position = handScript.rightHand.PalmPosition;
+    Vector3 oya = handScript.rightHand.Fingers[0].TipPosition;
+    Vector3 hito = handScript.rightHand.Fingers[1].TipPosition;*/
 
     void three_function(string a,int b,int c)
     {
@@ -57,20 +57,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     void FixedUpdate() //ここは0.001秒ごとに実行される
     {
-        if()
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            w = w + 1;
-            if (w <= 180)
-            {
-                three_function("'servo_write'", 1, w);
-            }
-            else
-            {
-                w = 180;
-            }
-        }
+        
 
         if(Input.GetKey(KeyCode.W)){
             w = w + 1;
