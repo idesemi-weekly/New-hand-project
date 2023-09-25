@@ -7,10 +7,15 @@ using Leap.Unity;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    [SerializeField]
     //SerialHandler.cのクラス
     public SerialHandler serialHandler;
-    public VisibleBallHand VisibleBallHand;
+    public LeapServiceProvider m_Provider;
+    GameObject m_ProviderObject;
 
+    Vector3 r1;
+    Vector3 r0;
+    public float x;
     int q = 45;
     int w = 93;
     int e = 90;
@@ -18,17 +23,13 @@ public class NewBehaviourScript : MonoBehaviour
     int t = 65;
 
     public VisibleBallHand handScript;
+    public Visiblehand Visiblehand;
 
-    /*Vector3 right_normal = handScript.rightHand.PalmNormal;
-    Vector3 right_direction = handScript.rightHand.Direction;
-    Vector3 right_position = handScript.rightHand.PalmPosition;
-    Vector3 oya = handScript.rightHand.Fingers[0].TipPosition;
-    Vector3 hito = handScript.rightHand.Fingers[1].TipPosition;*/
 
-    void three_function(string a,int b,int c)
+    void three_function(string a, int b, int c)
     {
         string p1;
-        p1 = "{'start':"+$"[{a},{b},{c}]"+"}\n";
+        p1 = "{'start':" + $"[{a},{b},{c}]" + "}\n";
         print(p1);
         byte[] p1EncodedBytes = Encoding.GetEncoding("gbk").GetBytes(p1);
         string p1EncodedString = Encoding.GetEncoding("gbk").GetString(p1EncodedBytes);
@@ -38,46 +39,125 @@ public class NewBehaviourScript : MonoBehaviour
     }
     void resetposition()
     {
-        three_function("'servo_attach'",0,9);
-        three_function("'servo_attach'",1,6);
-        three_function("'servo_attach'",2,5);
-        three_function("'servo_attach'",3,3);
-        three_function("'servo_attach'",4,11);
+        three_function("'servo_attach'", 0, 9);
+        three_function("'servo_attach'", 1, 6);
+        three_function("'servo_attach'", 2, 5);
+        three_function("'servo_attach'", 3, 3);
+        three_function("'servo_attach'", 4, 11);
 
-        three_function("'servo_write'",0,q);
-        three_function("'servo_write'",1,w);
-        three_function("'servo_write'",2,e);
-        three_function("'servo_write'",3,r);
-        three_function("'servo_write'",4,t);
+        three_function("'servo_write'", 0, q);
+        three_function("'servo_write'", 1, w);
+        three_function("'servo_write'", 2, e);
+        three_function("'servo_write'", 3, r);
+        three_function("'servo_write'", 4, t);
     }
     void Start()
     {
-        Invoke("resetposition",3.0f);
+        Invoke("resetposition", 3.0f);
+        if (m_ProviderObject != null)
+        {
+            m_Provider = m_ProviderObject.GetComponent<LeapServiceProvider>();
+        }
+        else
+        {
+            Debug.LogError("m_ProviderObject is not assigned in the Inspector.");
+        }
     }
 
     void FixedUpdate() //ここは0.001秒ごとに実行される
     {
-        Vector3 right_normal = handScript.rightHand.PalmNormal;
-        Vector3 right_direction = handScript.rightHand.Direction;
-        Vector3 right_position = handScript.rightHand.PalmPosition;
+        Frame frame = m_Provider.CurrentFrame;
 
-        if(Input.GetKey(KeyCode.W)){
-            w = w + 1;
-            if(w <= 180){
-                three_function("'servo_write'",1,w);
+        Hand rightHand = null;
+
+        foreach (Hand hand in frame.Hands)
+        {
+            if (hand.IsRight)
+            {
+                rightHand = hand; // 右手情報を代入
+                break; // 右手が見つかったらループを抜ける
             }
-            else{
+        }
+
+        if (rightHand != null)
+        {
+            r0 = rightHand.Fingers[0].TipPosition;
+            r1 = rightHand.Fingers[1].TipPosition;
+            x = Vector3.Distance(r1, r0);
+            x = x*13;
+
+            if(x >= 1)
+            {
+                t = t + 1;
+                if (t <= 135)
+                {
+                    three_function("'servo_write'", 4, t);
+                }
+                else{
+                    t = 135;
+                }
+            }
+            if (x <= 0.9f)
+            {
+                t = t - 1;
+                if (t >= 45)
+                {
+                    three_function("'servo_write'", 4, t);
+                }
+                else
+                {
+                    t = 45;
+                }
+            }
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            w = w + 1;
+            if (w <= 180)
+            {
+                three_function("'servo_write'", 1, w);
+            }
+            else
+            {
                 w = 180;
             }
         }
 
-        if(Input.GetKey(KeyCode.S)){
+        if (Input.GetKey(KeyCode.S))
+        {
             w = w - 1;
-            if(w >= 0){
-                three_function("'servo_write'",1,w);
+            if (w >= 0)
+            {
+                three_function("'servo_write'", 1, w);
             }
-            else{
+            else
+            {
                 w = 0;
+            }
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            q = q + 1;
+            if (q <= 180)
+            {
+                three_function("'servo_write'", 0, q);
+            }
+            else
+            {
+                q = 180;
+            }
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            q = q - 1;
+            if (q <= 180)
+            {
+                three_function("'servo_write'", 0, q);
+            }
+            else
+            {
+                q = 0;
             }
         }
     }
