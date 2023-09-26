@@ -13,10 +13,13 @@ public class NewBehaviourScript : MonoBehaviour
     public LeapServiceProvider m_Provider;
     GameObject m_ProviderObject;
 
+    Vector3 right_normal;
+    Vector3 right_direction;
+    Vector3 right_position;
     Vector3 r1;
     Vector3 r0;
     public float x;
-    int q = 45;
+    int q = 90;
     int w = 93;
     int e = 90;
     int r = 90;
@@ -86,7 +89,22 @@ public class NewBehaviourScript : MonoBehaviour
             x = Vector3.Distance(r1, r0);
             x = x*13;
 
-            if(x >= 1)
+            right_normal = rightHand.PalmNormal;
+            right_direction = rightHand.Direction;
+            right_position = rightHand.PalmPosition;
+
+            int right_position_X = Mathf.RoundToInt(right_position.x);
+            float right_position_Y = right_position.y;
+            float right_position_Z = right_position.z;
+
+            Debug.Log(right_position_X);
+            /*Debug.Log(right_position_Y);
+            Debug.Log(right_position_Z);*/
+
+            right_position_X = 90;
+
+            //つかむ動作(サーボモータ4番)
+            if (x >= 1)
             {
                 t = t + 1;
                 if (t <= 135)
@@ -109,6 +127,68 @@ public class NewBehaviourScript : MonoBehaviour
                     t = 45;
                 }
             }
+            
+            //前と後ろの操作(サーボモータ1番)
+            if (right_position_Z >= 0.1f)
+            {
+                w = w + 1;
+                if (w <= 180)
+                {
+                    three_function("'servo_write'", 1, w);
+                }
+                else
+                {
+                    w = 180;
+                }
+            }
+            if (right_position_Z >= -0.01 && right_position_Z <= 0.01)
+            {
+                w = 90;
+                three_function("'servo_write'", 1, w);
+            }
+
+            if (right_position_Z <= -0.1f)
+            {
+                w = w - 1;
+                if (w >= 0)
+                {
+                    three_function("'servo_write'", 1, w);
+                }
+                else
+                {
+                    w = 0;
+                }
+            }
+
+            //横に向く動作(サーボモータ0番)
+            if (right_position_X >= 0.1f)
+            {
+                if (right_position_X <= 180)
+                {
+                    three_function("'servo_write'", 0, right_position_X);
+                }
+                else
+                {
+                    right_position_X = 180;
+                }
+            }
+            if (right_position_X >= -0.01 && right_position_X <= 0.01)
+            {
+                q = 90;
+                three_function("'servo_write'", 0, q);
+            }
+            if (right_position_X <= -0.1f)
+            {
+                if (right_position_X >= 0)
+                {
+                    three_function("'servo_write'", 0, right_position_X);
+                }
+                else
+                {
+                    right_position_X = 0;
+                }
+            }
+
         }
 
         if (Input.GetKey(KeyCode.W))
