@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Text;
 using Leap;
 using Leap.Unity;
+using UnityEngine.UIElements;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -16,9 +17,13 @@ public class NewBehaviourScript : MonoBehaviour
     Vector3 right_normal;
     Vector3 right_direction;
     Vector3 right_position;
+    private Transform emptyObjectTransform;
     Vector3 r1;
     Vector3 r0;
-    public float x;
+    float x;
+    float ay;
+    float zy;
+    float zeroY;
     int q = 90;
     int w = 93;
     int e = 90;
@@ -93,15 +98,21 @@ public class NewBehaviourScript : MonoBehaviour
             right_direction = rightHand.Direction;
             right_position = rightHand.PalmPosition;
 
-            int right_position_X = Mathf.RoundToInt(right_position.x);
-            float right_position_Y = right_position.y;
-            float right_position_Z = right_position.z;
+            emptyObjectTransform = GameObject.Find("Leap motion Controller").transform;
+            Vector3 zero_position = emptyObjectTransform.position;
+            Vector3 zeroY_Zposition = new Vector3(right_position.x,0,right_position.z);
+            
+            zy = Vector3.Distance(right_position,zero_position);
+            zeroY = Vector3.Distance(zero_position,zeroY_Zposition);
+            ay = Vector3.Distance(right_position,zeroY_Zposition);
 
-            Debug.Log(right_position_X);
+            float Z_rightposition = right_position.z;
+            float Y_rightposition = right_position.y;
+            float X_rightposition = right_position.x;
+
             /*Debug.Log(right_position_Y);
             Debug.Log(right_position_Z);*/
 
-            right_position_X = 90;
 
             //つかむ動作(サーボモータ4番)
             if (x >= 1)
@@ -127,68 +138,26 @@ public class NewBehaviourScript : MonoBehaviour
                     t = 45;
                 }
             }
-            
+
             //前と後ろの操作(サーボモータ1番)
-            if (right_position_Z >= 0.1f)
+            if (Z_rightposition < 0)
             {
-                w = w + 1;
-                if (w <= 180)
-                {
-                    three_function("'servo_write'", 1, w);
-                }
-                else
-                {
-                    w = 180;
-                }
+                zeroY = Mathf.Abs(zeroY);
+                
             }
-            if (right_position_Z >= -0.01 && right_position_Z <= 0.01)
+            else
             {
-                w = 90;
-                three_function("'servo_write'", 1, w);
+                zeroY = -Mathf.Abs(zeroY);
+                
             }
-
-            if (right_position_Z <= -0.1f)
-            {
-                w = w - 1;
-                if (w >= 0)
-                {
-                    three_function("'servo_write'", 1, w);
-                }
-                else
-                {
-                    w = 0;
-                }
-            }
-
+            float cc = Mathf.Atan2(ay,zeroY);
+            float aa = cc * (180f/Mathf.PI);
+            w = (int)aa;
+            three_function("'servo_write'", 1, w);
+            //アームを折り曲げる動作
+            
             //横に向く動作(サーボモータ0番)
-            if (right_position_X >= 0.1f)
-            {
-                if (right_position_X <= 180)
-                {
-                    three_function("'servo_write'", 0, right_position_X);
-                }
-                else
-                {
-                    right_position_X = 180;
-                }
-            }
-            if (right_position_X >= -0.01 && right_position_X <= 0.01)
-            {
-                q = 90;
-                three_function("'servo_write'", 0, q);
-            }
-            if (right_position_X <= -0.1f)
-            {
-                if (right_position_X >= 0)
-                {
-                    three_function("'servo_write'", 0, right_position_X);
-                }
-                else
-                {
-                    right_position_X = 0;
-                }
-            }
-
+            
         }
 
         if (Input.GetKey(KeyCode.W))
