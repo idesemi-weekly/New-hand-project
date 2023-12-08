@@ -200,6 +200,8 @@ public class NewBehaviourScript : MonoBehaviour
             if (q < 0) q = q * -1;
             if (q > 180) q = 180;
             s0 = (int)(s0 * 0.9f+q*0.1f);
+            if (s0 < 0) s0 = 0;
+            if (s0 > 180) s0 = 180;
             three_function("'servo_write'", 0, s0);
             
 
@@ -227,7 +229,11 @@ public class NewBehaviourScript : MonoBehaviour
             if (e > 180) e = 180;
 
             s1 = (int)(s1 * 0.9f +(90 - e + w)*0.1f);
+            if (s1 < 0) s1 = 0;
+            if (s1 > 180) s1 = 180;
             s2 = (int)(s2 * 0.9f + (180 - e * 2)*0.1f);
+            if (s2 < 0) s2 = 0;
+            if (s2 > 180) s2 = 180;
             three_function("'servo_write'", 1, s1);
             three_function("'servo_write'", 2, s2);
 
