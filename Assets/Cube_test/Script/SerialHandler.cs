@@ -22,6 +22,8 @@ public class SerialHandler : MonoBehaviour
 
     private string message_;
     private bool isNewMessageReceived_ = false;
+    public bool isDataAvailable = false;
+
 
     void Awake()
     {
@@ -34,14 +36,20 @@ public class SerialHandler : MonoBehaviour
             OnDataReceived(message_);
         }
         isNewMessageReceived_ = false;
+        // 新しく追加したデータの受信状態を確認する処理
+        if (isDataAvailable)
+        {
+            Debug.Log("Data is available");
+            isDataAvailable = false;
+            // ここに必要な処理を追加
+        }
+
         
     }
-
     void OnDestroy()
     {
         Close();
     }
-
     private void Open()
     {
         serialPort_ = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
@@ -77,6 +85,7 @@ public class SerialHandler : MonoBehaviour
             try {
                 message_ = serialPort_.ReadLine();
                 isNewMessageReceived_ = true;
+                isDataAvailable = true;
             } catch (System.Exception e) {
                 Debug.LogWarning(e.Message);
             }
@@ -91,5 +100,4 @@ public class SerialHandler : MonoBehaviour
             Debug.LogWarning(e.Message);
         }
     }
-
 }

@@ -21,6 +21,8 @@ public class VisibleBallHand : MonoBehaviour
     Vector3 left_direction;
     Vector3 left_position;
 
+    public float distance;
+
     public NewBehaviourScript demoscript;
     
     void Start()
