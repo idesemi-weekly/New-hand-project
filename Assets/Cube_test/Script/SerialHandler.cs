@@ -87,7 +87,7 @@ public class SerialHandler : MonoBehaviour
                 isNewMessageReceived_ = true;
                 isDataAvailable = true;
             } catch (System.Exception e) {
-                Debug.LogWarning(e.Message);
+//                Debug.LogWarning(e.Message);
             }
         }
     }

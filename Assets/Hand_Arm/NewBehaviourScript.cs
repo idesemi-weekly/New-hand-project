@@ -33,12 +33,14 @@ public class NewBehaviourScript : MonoBehaviour
     int s1;
     int s2;
 
+    int s4openHand; // ひらき角
+
     public VisibleBallHand handScript;
     public Visiblehand Visiblehand;
     private bool isPositive = true;
 
     private bool isSending = false;  // 送信中かどうかのフラグ
-    private float sendTimeout = 1.0f;  // 送信のタイムアウト時間（秒）
+    private float sendTimeout = 0.02f;  // 送信のタイムアウト時間（秒）
     private float sendFrequency = 0.5f;  // 送信の頻度（秒）
 
     IEnumerator SendDataWithTimeout(string data)
@@ -64,7 +66,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         // タイムアウトした場合は中断
-        Debug.LogWarning("Data send timeout. Aborting send.");
+//        Debug.LogWarning("Data send timeout. Aborting send.");
         isSending = false;
     }
     IEnumerator SendDataWithFrequency()
@@ -89,7 +91,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         string p1;
         p1 = "{'start':" + $"[{a},{b},{c}]" + "}\n";
-        print(p1);
+//        print(p1);
         byte[] p1EncodedBytes = Encoding.GetEncoding("gbk").GetBytes(p1);
         string p1EncodedString = Encoding.GetEncoding("gbk").GetString(p1EncodedBytes);
         serialHandler.Write(p1EncodedString);
@@ -153,7 +155,7 @@ public class NewBehaviourScript : MonoBehaviour
             r0 = rightHand.Fingers[0].TipPosition;
             r1 = rightHand.Fingers[1].TipPosition;
             x = Vector3.Distance(r1, r0);
-            x = x*13;
+           Debug.Log("FingerDist " + x.ToString());
 
             right_normal = rightHand.PalmNormal;
             right_direction = rightHand.Direction;
@@ -170,28 +172,36 @@ public class NewBehaviourScript : MonoBehaviour
             Vector3 direction = right_position-zero_position;
 
             //つかむ動作(サーボモータ4番)
-            if (x >= 1)
+            if (x >= 0.1f || Input.GetKey(KeyCode.O))
             {
+                /*
                 t = t + 10;
-                if (t <= 120)
+                if (t <= 180)
                 {
                     three_function("'servo_write'", 4, t);
                 }
                 else{
-                    t = 120;
+                    t = 180;
                 }
+                */
+//                three_function("'servo_write'", 4, 180);
+                s4openHand = 120;
             }
-            if (x <= 0.9f)
+            else if (x <= 0.05f || Input.GetKey(KeyCode.C))
             {
-                t = t - 10;
-                if (t >= 45)
-                {
-                    three_function("'servo_write'", 4, t);
-                }
-                else
-                {
-                    t = 45;
-                }
+                /*
+                                t = t - 10;
+                                if (t >= 40)
+                                {
+                                    three_function("'servo_write'", 4, t);
+                                }
+                                else
+                                {
+                                    t = 40;
+                                }
+                */
+//                three_function("'servo_write'", 4, 40);
+                s4openHand = 75;
             }
 
             //横の動作(サーボモータ0番)
@@ -202,16 +212,15 @@ public class NewBehaviourScript : MonoBehaviour
             s0 = (int)(s0 * 0.9f+q*0.1f);
             if (s0 < 0) s0 = 0;
             if (s0 > 180) s0 = 180;
-            three_function("'servo_write'", 0, s0);
+//            three_function("'servo_write'", 0, s0);
             
-
             //前と後ろの操作(サーボモータ1番)
-            Debug.Log(direction);
+            //Debug.Log(direction);
             float cc = Mathf.Rad2Deg * Mathf.Atan2(direction.z,direction.y-0.1f);  
-            cc = cc * 1.2f;       
+            //cc = cc * 1.2f;       
             w = (int)cc;
             if (w < 0) w = 0;
-            if (w > 180) w = 170;
+            if (w > 130) w = 130;
             
 
             //アームを折り曲げる動作(サーボモータ2番)
@@ -226,18 +235,23 @@ public class NewBehaviourScript : MonoBehaviour
             secondarm = secondarm * 1.1f;
             e = (int)secondarm;
             if (e < 0) e = 0;
-            if (e > 180) e = 180;
+            if (e > 150) e = 150;
 
             s1 = (int)(s1 * 0.9f +(90 - e + w)*0.1f);
             if (s1 < 0) s1 = 0;
             if (s1 > 180) s1 = 180;
+
+            if (e < 0) e = 0;
+            if (e > 135) e = 135;
             s2 = (int)(s2 * 0.9f + (180 - e * 2)*0.1f);
             if (s2 < 0) s2 = 0;
             if (s2 > 180) s2 = 180;
+
+
+            three_function("'servo_write'", 4, s4openHand);
+            three_function("'servo_write'", 0, s0);
             three_function("'servo_write'", 1, s1);
             three_function("'servo_write'", 2, s2);
-
-
         }
     }
 }
