@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap;
 using Leap.Unity;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Visiblehand : MonoBehaviour

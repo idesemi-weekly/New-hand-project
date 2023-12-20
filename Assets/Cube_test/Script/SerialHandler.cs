@@ -86,7 +86,7 @@ public class SerialHandler : MonoBehaviour
                 message_ = serialPort_.ReadLine();
                 isNewMessageReceived_ = true;
                 isDataAvailable = true;
-            } catch (System.Exception e) {
+            } catch (System.Exception) {
 //                Debug.LogWarning(e.Message);
             }
         }

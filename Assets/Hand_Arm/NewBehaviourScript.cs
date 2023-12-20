@@ -14,12 +14,16 @@ public class NewBehaviourScript : MonoBehaviour
     GameObject m_ProviderObject;
     public SerialHandler serialHandler;
     Vector3 right_normal;
+    Vector3 left_normal;
     Vector3 right_direction;
+    Vector3 left_direction;
     Vector3 right_position;
+    Vector3 left_position;
     private Transform emptyObjectTransform;
     Vector3 r1;
     Vector3 r0;
-    float x;
+    float rx;
+    float lx;
     float ay;
     float zy;
     float zeroY;
@@ -37,7 +41,6 @@ public class NewBehaviourScript : MonoBehaviour
 
     public VisibleBallHand handScript;
     public Visiblehand Visiblehand;
-    private bool isPositive = true;
 
     private bool isSending = false;  // 送信中かどうかのフラグ
     private float sendTimeout = 0.02f;  // 送信のタイムアウト時間（秒）
@@ -140,6 +143,7 @@ public class NewBehaviourScript : MonoBehaviour
         Frame frame = m_Provider.CurrentFrame;
 
         Hand rightHand = null;
+        Hand leftHand = null;
 
         foreach (Hand hand in frame.Hands)
         {
@@ -148,14 +152,19 @@ public class NewBehaviourScript : MonoBehaviour
                 rightHand = hand; // 右手情報を代入
                 break; // 右手が見つかったらループを抜ける
             }
+            if (hand.IsLeft)
+            {
+                leftHand = hand; // 左手情報を代入
+                break; // 左手が見つかったらループを抜ける
+            }
         }
 
         if (rightHand != null)
         {
             r0 = rightHand.Fingers[0].TipPosition;
             r1 = rightHand.Fingers[1].TipPosition;
-            x = Vector3.Distance(r1, r0);
-           Debug.Log("FingerDist " + x.ToString());
+            rx = Vector3.Distance(r1, r0);
+           Debug.Log("FingerDist " + rx.ToString());
 
             right_normal = rightHand.PalmNormal;
             right_direction = rightHand.Direction;
@@ -172,7 +181,7 @@ public class NewBehaviourScript : MonoBehaviour
             Vector3 direction = right_position-zero_position;
 
             //つかむ動作(サーボモータ4番)
-            if (x >= 0.1f || Input.GetKey(KeyCode.O))
+            if (rx >= 0.1f || Input.GetKey(KeyCode.O))
             {
                 /*
                 t = t + 10;
@@ -187,7 +196,7 @@ public class NewBehaviourScript : MonoBehaviour
 //                three_function("'servo_write'", 4, 180);
                 s4openHand = 120;
             }
-            else if (x <= 0.05f || Input.GetKey(KeyCode.C))
+            else if (rx <= 0.05f || Input.GetKey(KeyCode.C))
             {
                 /*
                                 t = t - 10;
@@ -244,6 +253,113 @@ public class NewBehaviourScript : MonoBehaviour
             if (e < 0) e = 0;
             if (e > 135) e = 135;
             s2 = (int)(s2 * 0.9f + (180 - e * 2)*0.1f);
+            if (s2 < 0) s2 = 0;
+            if (s2 > 180) s2 = 180;
+
+
+            three_function("'servo_write'", 4, s4openHand);
+            three_function("'servo_write'", 0, s0);
+            three_function("'servo_write'", 1, s1);
+            three_function("'servo_write'", 2, s2);
+        }
+
+
+
+        if (leftHand != null)
+        {
+            r0 = leftHand.Fingers[0].TipPosition;
+            r1 = leftHand.Fingers[1].TipPosition;
+            lx = Vector3.Distance(r1, r0);
+            Debug.Log("FingerDist " + lx.ToString());
+
+            left_normal = leftHand.PalmNormal;
+            left_direction = leftHand.Direction;
+            left_position = leftHand.PalmPosition;
+
+            emptyObjectTransform = GameObject.Find("Leap motion Controller").transform;
+            Vector3 zero_position = new Vector3(0, 0.3f, 0);
+            Vector3 zeroY_Zposition = new Vector3(left_position.x, 0, left_position.z);
+
+            zeroY = Vector3.Distance(zero_position, zeroY_Zposition);
+            ay = Vector3.Distance(left_position, zeroY_Zposition);
+            float re = Vector3.Distance(left_position, zero_position);
+
+            Vector3 direction = left_position - zero_position;
+
+            //つかむ動作(サーボモータ4番)
+            if (lx >= 0.1f || Input.GetKey(KeyCode.O))
+            {
+                /*
+                t = t + 10;
+                if (t <= 180)
+                {
+                    three_function("'servo_write'", 4, t);
+                }
+                else{
+                    t = 180;
+                }
+                */
+                //                three_function("'servo_write'", 4, 180);
+                s4openHand = 120;
+            }
+            else if (lx <= 0.05f || Input.GetKey(KeyCode.C))
+            {
+                /*
+                                t = t - 10;
+                                if (t >= 40)
+                                {
+                                    three_function("'servo_write'", 4, t);
+                                }
+                                else
+                                {
+                                    t = 40;
+                                }
+                */
+                //                three_function("'servo_write'", 4, 40);
+                s4openHand = 75;
+            }
+
+            //横の動作(サーボモータ0番)
+            float xp = Mathf.Rad2Deg * Mathf.Atan2(direction.z, direction.x);
+            q = (int)xp;
+            if (q < 0) q = q * -1;
+            if (q > 180) q = 180;
+            s0 = (int)(s0 * 0.9f + q * 0.1f);
+            if (s0 < 0) s0 = 0;
+            if (s0 > 180) s0 = 180;
+            //            three_function("'servo_write'", 0, s0);
+
+            //前と後ろの操作(サーボモータ1番)
+            //Debug.Log(direction);
+            float cc = Mathf.Rad2Deg * Mathf.Atan2(direction.z, direction.y - 0.1f);
+            //cc = cc * 1.2f;       
+            w = (int)cc;
+            if (w < 0) w = 0;
+            if (w > 130) w = 130;
+
+
+            //アームを折り曲げる動作(サーボモータ2番)
+            float hy = re / 3;
+
+            float arm = 0.07f;
+            float secondarm = 0;
+            if (hy < arm)
+            {
+                secondarm = Mathf.Rad2Deg * Mathf.Acos(hy / arm);
+            }
+
+            secondarm = secondarm * 1.1f;
+            e = (int)secondarm;
+            if (e < 0) e = 0;
+            if (e > 150) e = 150;
+
+            s1 = (int)(s1 * 0.9f + (90 - e + w) * 0.1f);
+            if (s1 < 0) s1 = 0;
+            if (s1 > 180) s1 = 180;
+
+            if (e < 0) e = 0;
+            if (e > 135) e = 135;
+            s2 = (int)(s2 * 0.9f + (180 - e * 2) * 0.1f);
             if (s2 < 0) s2 = 0;
             if (s2 > 180) s2 = 180;
 
