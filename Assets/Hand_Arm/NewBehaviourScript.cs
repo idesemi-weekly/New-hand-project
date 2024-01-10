@@ -225,11 +225,11 @@ public class NewBehaviourScript : MonoBehaviour
             
             //前と後ろの操作(サーボモータ1番)
             //Debug.Log(direction);
-            float cc = Mathf.Rad2Deg * Mathf.Atan2(direction.z,direction.y-0.1f);  
-            //cc = cc * 1.2f;       
+            float cc = Mathf.Rad2Deg * Mathf.Atan2(direction.z,direction.y-0.1f);    
             w = (int)cc;
+            
             if (w < 0) w = 0;
-            if (w > 130) w = 130;
+            if (w > 120) w = 120;
             
 
             //アームを折り曲げる動作(サーボモータ2番)
@@ -243,8 +243,21 @@ public class NewBehaviourScript : MonoBehaviour
 
             secondarm = secondarm * 1.1f;
             e = (int)secondarm;
+
+            
+            int ren = (int)re;
+
+            if (re <= 0.25) q = -q * (ren * 4 - 1);
+
+            s0 = (int)(s0 * 0.9f + q * 0.1f);
+            if (s0 < 0) s0 = 0;
+            if (s0 > 180) s0 = 180;
+
             if (e < 0) e = 0;
             if (e > 150) e = 150;
+
+            if (re <= 0.25) w = -w * (ren * 4 - 1);
+            if (re <= 0.25) e = -e * (ren * 4 - 1);
 
             s1 = (int)(s1 * 0.9f +(90 - e + w)*0.1f);
             if (s1 < 0) s1 = 0;
