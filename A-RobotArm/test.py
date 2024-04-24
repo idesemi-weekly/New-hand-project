@@ -48,10 +48,10 @@ while True:
             w = 180
     if keyboard.is_pressed("k"):
         e = e + 0.25
-        if (e <= 180):
+        if (e <= 360):
             Adeept.three_function("'servo_write'",2,e)
         else:
-            e = 180
+            e = 360
     if keyboard.is_pressed("q"):
         r = r + 0.25
         if (r <= 180):
