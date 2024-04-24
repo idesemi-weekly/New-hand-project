@@ -37,6 +37,5 @@ public class AnyHand : MonoBehaviour {
         // 手の向き
         Vector3 direction = rightHand.Direction;
 
-        // 情報がとれたので、あとは煮るなり焼くなりお好きに。
     }
  }
