@@ -7,6 +7,7 @@ public class CatchLog : MonoBehaviour
 {
     public Text logText;  // UIのTextコンポーネントをアタッチする
     private string logContent = "";
+    private const int maxLines = 2;
 
     private void OnEnable()
     {
@@ -20,8 +21,13 @@ public class CatchLog : MonoBehaviour
 
     private void HandleLog(string logString, string stackTrace, LogType type)
     {
-        string color;
+        if (logText == null)
+        {
+            Debug.LogError("logText is not assigned.");
+            return;
+        }
 
+        string color;
         switch (type)
         {
             case LogType.Error:
@@ -43,6 +49,18 @@ public class CatchLog : MonoBehaviour
         // スクロールビューの自動スクロール
         Canvas.ForceUpdateCanvases();
         logText.GetComponentInParent<ScrollRect>().verticalNormalizedPosition = 0f;
+        
+        string[] lines = formattedMessage.Split('\n');
+
+        if (lines.Length > maxLines)
+        {
+            formattedMessage = string.Join("\n", lines, 0, maxLines) + "\n...";
+        }
+
+        formattedMessage = $"<color={color}>{formattedMessage}</color>";
+
+        logContent += formattedMessage + "\n";
+        logText.text = logContent;
     }
 
     void Update()
