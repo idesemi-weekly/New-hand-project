@@ -69,7 +69,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         // タイムアウトした場合は中断
-//        Debug.LogWarning("Data send timeout. Aborting send.");
+        //Debug.LogWarning("Data send timeout. Aborting send.");
         isSending = false;
     }
     IEnumerator SendDataWithFrequency()
@@ -193,7 +193,7 @@ public class NewBehaviourScript : MonoBehaviour
                     t = 180;
                 }
                 */
-//                three_function("'servo_write'", 4, 180);
+                //three_function("'servo_write'", 4, 180);
                 s4openHand = 120;
             }
             else if (rx <= 0.05f || Input.GetKey(KeyCode.C))
@@ -209,7 +209,7 @@ public class NewBehaviourScript : MonoBehaviour
                                     t = 40;
                                 }
                 */
-//                three_function("'servo_write'", 4, 40);
+                //three_function("'servo_write'", 4, 40);
                 s4openHand = 75;
             }
 
@@ -221,7 +221,7 @@ public class NewBehaviourScript : MonoBehaviour
             s0 = (int)(s0 * 0.9f+q*0.1f);
             if (s0 < 0) s0 = 0;
             if (s0 > 180) s0 = 180;
-//            three_function("'servo_write'", 0, s0);
+            //three_function("'servo_write'", 0, s0);
             
             //前と後ろの操作(サーボモータ1番)
             //Debug.Log(direction);
